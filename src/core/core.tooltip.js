@@ -33,6 +33,7 @@ defaults._set('global', {
 		multiKeyBackground: '#fff',
 		displayColors: true,
 		borderColor: 'rgba(0,0,0,0)',
+		labelColorMode: 'default',
 		borderWidth: 0,
 		callbacks: {
 			// Args are: (tooltipItems, data)
@@ -75,9 +76,12 @@ defaults._set('global', {
 				var meta = chart.getDatasetMeta(tooltipItem.datasetIndex);
 				var activeElement = meta.data[tooltipItem.index];
 				var view = activeElement._view;
+				var me = this;
+				var tooltipOpts = me._model;
+
 				return {
-					borderColor: view.borderColor,
-					backgroundColor: view.backgroundColor
+					borderColor: tooltipOpts.labelColorMode === 'background' ? view.backgroundColor : view.borderColor,
+					backgroundColor: tooltipOpts.labelColorMode === 'border' ? view.borderColor: view.backgroundColor
 				};
 			},
 			labelTextColor: function() {
@@ -188,7 +192,8 @@ module.exports = function(Chart) {
 			legendColorBackground: tooltipOpts.multiKeyBackground,
 			displayColors: tooltipOpts.displayColors,
 			borderColor: tooltipOpts.borderColor,
-			borderWidth: tooltipOpts.borderWidth
+			borderWidth: tooltipOpts.borderWidth,
+			labelColorMode: tooltipOpts.labelColorMode
 		};
 	}
 
